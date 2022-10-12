@@ -112,7 +112,6 @@ class AudioEngine: NSObject {
     func togglePlayer() {
         if !self.playerIsPlaying {
             self.startEngine()
-            //self.initSongIntoPlayer()
             self.schedulePlayerContent()
             player.play()
         } else {
