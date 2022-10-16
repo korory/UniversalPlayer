@@ -14,6 +14,8 @@ class PlayerViewModel: ObservableObject {
     @Published var audioEngine: AudioEngine = AudioEngine()
     @Published var dragOffsetCircle: CGSize = .zero
     @Published var playPauseTextButton: String = ""
+    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+
     
     //MARK: - ASSETS
     
@@ -31,12 +33,16 @@ class PlayerViewModel: ObservableObject {
         playPauseTextButton = playButtonAsset
     }
     
-    
     //MARK: - Functions
+    
+    func getCurrrentSongTime() -> String {
+        return audioEngine.songTotalTime
+    }
     
     func audioPlay() {
         self.audioEngine.togglePlayer()
         changePlayButtonApparence()
+        timer.upstream.connect().cancel()
     }
     
     func changePlayButtonApparence() {
@@ -49,6 +55,10 @@ class PlayerViewModel: ObservableObject {
     
     func isPlaying() -> Bool {
         return audioEngine.playerIsPlaying
+    }
+    
+    func getSongTotalTime() -> String {
+        return audioEngine.songTotalTime
     }
     
     func onChangeCircleCurrentTimeBar(value: DragGesture.Value) {

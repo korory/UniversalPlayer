@@ -34,6 +34,12 @@ struct PlayerView: View {
                 
             }
         }
+        .onReceive(playerViewModel.timer) { time in
+            print(playerViewModel.isPlaying())
+            if playerViewModel.isPlaying() {
+                print("The time is now \(time)")
+            }
+        }
     }
 }
 
@@ -83,32 +89,44 @@ extension PlayerView {
     }
     
     var sliderTimerComponent: some View {
-        ZStack (alignment: .leading) {
-            RoundedRectangle(cornerRadius: 2)
-                .stroke(lineWidth: 4)
-                .fill(Color.white)
-                .frame(width: playerViewModel.dragOffsetCircle.width, height: 1)
-                .opacity(1.0)
+        
+        VStack (alignment: .trailing) {
             
-            RoundedRectangle(cornerRadius: 2)
-                .stroke(lineWidth: 4)
-                .fill(Color.gray)
-                .frame(width: UIScreen.main.bounds.width - 40, height: 1)
-                .opacity(0.2)
+            ZStack (alignment: .leading) {
+                
+                RoundedRectangle(cornerRadius: 2)
+                    .stroke(lineWidth: 4)
+                    .fill(Color.white)
+                    .frame(width: playerViewModel.dragOffsetCircle.width, height: 1)
+                    .opacity(1.0)
+                
+                RoundedRectangle(cornerRadius: 2)
+                    .stroke(lineWidth: 4)
+                    .fill(Color.gray)
+                    .frame(height: 1)
+                    .opacity(0.2)
+                
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 12, height: 12)
+                    .offset(x: playerViewModel.dragOffsetCircle.width)
+                    .gesture(DragGesture()
+                        .onChanged({ value in
+                            playerViewModel.onChangeCircleCurrentTimeBar(value: value)
+                            print(playerViewModel.dragOffsetCircle.width)
+                        })
+                            .onEnded({ value in
+                                playerViewModel.onChangeCircleCurrentTimeBar(value: value)
+                            }))
+                
+            }
             
-            Circle()
-                .fill(Color.white)
-                .frame(width: 12, height: 12)
-                .offset(x: playerViewModel.dragOffsetCircle.width)
-                .gesture(DragGesture()
-                    .onChanged({ value in
-                        playerViewModel.onChangeCircleCurrentTimeBar(value: value)
-                        print(playerViewModel.dragOffsetCircle.width)
-                    })
-                    .onEnded({ value in
-                        playerViewModel.onChangeCircleCurrentTimeBar(value: value)
-                    }))
+            Text(playerViewModel.getSongTotalTime())
+                .foregroundColor(.white)
+                .font(.system(size: 10.0))
         }
+        .padding(.leading, 15)
+        .padding(.trailing, 15)
     }
     
     var albumCoverComponent: some View {

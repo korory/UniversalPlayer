@@ -20,14 +20,19 @@ class AudioEngine: NSObject {
     // buffer for the player
     private var playerLoopBuffer: AVAudioPCMBuffer = AVAudioPCMBuffer()
     
+    private var timeInterval: TimeInterval = TimeInterval()
+
+    
     var playerIsPlaying: Bool {
         return player.isPlaying
     }
     
+    var songTotalTime = ""
+    
     override init() {
         super.init()
         initAVAudioSession()
-        initSongIntoPlayer()
+        initSongFileIntoPlayer()
         initAllComponentsToPlayer()
         createEngineAndAttachNodes()
         connectAllComponentsToTheMainMixer()
@@ -97,11 +102,12 @@ class AudioEngine: NSObject {
         engine.connect(sampler, to: destinationNodes, fromBus: 0, format: stereoFormat)
     }
     
-    func initSongIntoPlayer() {
+    func initSongFileIntoPlayer() {
         
         do {
             let songURL = Bundle.main.url(forResource: "Testing", withExtension: "mp3")!
             let songFile = try AVAudioFile(forReading: songURL)
+            self.songTotalTime = timeInterval.stringFromTimeInterval(interval: durationOfNodePlayer(songURL))
             playerLoopBuffer = AVAudioPCMBuffer(pcmFormat: songFile.processingFormat, frameCapacity: AVAudioFrameCount(songFile.length))!
             try songFile.read(into: playerLoopBuffer)
         } catch {
@@ -132,5 +138,31 @@ class AudioEngine: NSObject {
     
     func schedulePlayerContent() {
         player.scheduleBuffer(playerLoopBuffer, at: nil, options: .loops, completionHandler: nil)
+    }
+    
+    func durationOfNodePlayer(_ fileUrl: URL) -> TimeInterval {
+        do {
+            let file = try AVAudioFile(forReading: fileUrl)
+            let audioNodeFileLength = AVAudioFrameCount(file.length)
+            return Double(Double(audioNodeFileLength) / 44100) //Divide by the AVSampleRateKey in the recorder settings
+
+           } catch {
+
+              return 0
+           }
+
+    }
+}
+
+extension TimeInterval {
+    
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+        
+        let songTime = NSInteger(interval)
+
+        let seconds = songTime % 60
+        let minutes = (songTime / 60) % 60
+
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
     }
 }
