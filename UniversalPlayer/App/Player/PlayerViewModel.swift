@@ -14,8 +14,11 @@ class PlayerViewModel: ObservableObject {
     @Published var audioEngine: AudioEngine = AudioEngine()
     @Published var dragOffsetCircle: CGSize = .zero
     @Published var playPauseTextButton: String = ""
-    @Published var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @Published var timer = Timer.publish(every: 1, on: .current, in: .default).autoconnect()
+    @Published var currentSongTimePlaying: String = "00:00"
 
+    var sliderCurentSongProgress: CGFloat = 0
+    var currentSongTimerCounter: Int = 0
     
     //MARK: - ASSETS
     
@@ -42,7 +45,6 @@ class PlayerViewModel: ObservableObject {
     func audioPlay() {
         self.audioEngine.togglePlayer()
         changePlayButtonApparence()
-        timer.upstream.connect().cancel()
     }
     
     func changePlayButtonApparence() {
@@ -62,14 +64,63 @@ class PlayerViewModel: ObservableObject {
     }
     
     func onChangeCircleCurrentTimeBar(value: DragGesture.Value) {
-        if value.translation.width < 0 {
+        if value.location.x < 0 {
             dragOffsetCircle = CGSize(width: 0, height: value.translation.height)
-        } else if value.translation.width > UIScreen.main.bounds.width - 40 {
+        } else if value.location.x > UIScreen.main.bounds.width - 40 {
             dragOffsetCircle = CGSize(width: UIScreen.main.bounds.width - 40, height: value.translation.height)
         }else {
-            print(value.translation)
-            dragOffsetCircle = value.translation
+            dragOffsetCircle = CGSize(width: value.location.x, height: value.translation.height)
+            sliderCurentSongProgress = dragOffsetCircle.width
         }
     }
     
+    func updateTimePlaying() {
+        //print(audioEngine.test(sliderValue: dragOffsetCircle))
+        //Move song slilder
+        if sliderCurentSongProgress < CGFloat(UIScreen.main.bounds.width - 40) {
+            sliderCurentSongProgress += 1
+            
+            withAnimation(Animation.linear(duration: 0.1)) {
+                dragOffsetCircle = CGSize(width: sliderCurentSongProgress, height: 1)
+            }
+        }
+        
+        //Change Current Song Timer
+        if currentSongTimePlaying != getSongTotalTime() {
+            currentSongTimerCounter += 1
+            let timer = translateCounterToMinutesAndSeconds(counter: currentSongTimerCounter)
+            self.currentSongTimePlaying = stringFromTimeInterval(minutes: timer.0, seconds: timer.1)
+        }
+        
+    }
+    
+//    func updateMusicTrackWithTimeBar() {
+//        let test = audioEngine.
+//    }
+//
+    func translateCounterToMinutesAndSeconds(counter: Int) -> (Int, Int) {
+        return ((counter % 3600) / 60, ((counter % 3600) % 60))
+    }
+    
+    func stringFromTimeInterval(minutes: Int, seconds: Int) -> String {
+
+        let seconds = seconds % 60
+        let minutes = (minutes / 60) % 60
+
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
+    }
+    
+}
+
+extension TimeInterval {
+    
+    func stringFromTimeInterval(interval: TimeInterval) -> String {
+        
+        let songTime = Int(interval)
+
+        let seconds = songTime % 60
+        let minutes = (songTime / 60) % 60
+
+        return String(format: "%0.2d:%0.2d",minutes,seconds)
+    }
 }

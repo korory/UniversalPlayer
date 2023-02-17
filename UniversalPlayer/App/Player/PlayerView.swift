@@ -34,10 +34,9 @@ struct PlayerView: View {
                 
             }
         }
-        .onReceive(playerViewModel.timer) { time in
-            print(playerViewModel.isPlaying())
+        .onReceive(playerViewModel.timer) { _ in
             if playerViewModel.isPlaying() {
-                print("The time is now \(time)")
+                playerViewModel.updateTimePlaying()
             }
         }
     }
@@ -92,6 +91,8 @@ extension PlayerView {
         
         VStack (alignment: .trailing) {
             
+//            Slider(value: $playerViewModel.dragOffsetCircle.width, in: -0...100, step: 1)
+            
             ZStack (alignment: .leading) {
                 
                 RoundedRectangle(cornerRadius: 2)
@@ -115,15 +116,28 @@ extension PlayerView {
                             playerViewModel.onChangeCircleCurrentTimeBar(value: value)
                             print(playerViewModel.dragOffsetCircle.width)
                         })
-                            .onEnded({ value in
-                                playerViewModel.onChangeCircleCurrentTimeBar(value: value)
-                            }))
+                        .onEnded({ value in
+                            playerViewModel.onChangeCircleCurrentTimeBar(value: value)
+                            
+//                            //Update the Audio Track to correct position
+//                            playerViewModel.updateMusicTrackWithTimeBar()
+                        }))
                 
             }
             
-            Text(playerViewModel.getSongTotalTime())
-                .foregroundColor(.white)
-                .font(.system(size: 10.0))
+            HStack {
+                Text(playerViewModel.currentSongTimePlaying)
+                    .foregroundColor(.white)
+                    .font(.system(size: 10.0))
+                
+                Spacer()
+                
+                Text(playerViewModel.getSongTotalTime())
+                    .foregroundColor(.white)
+                    .font(.system(size: 10.0))
+            }
+            
+            
         }
         .padding(.leading, 15)
         .padding(.trailing, 15)

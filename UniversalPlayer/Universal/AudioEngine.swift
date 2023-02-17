@@ -21,6 +21,7 @@ class AudioEngine: NSObject {
     private var playerLoopBuffer: AVAudioPCMBuffer = AVAudioPCMBuffer()
     
     private var timeInterval: TimeInterval = TimeInterval()
+    private var songURL: URL?
 
     
     var playerIsPlaying: Bool {
@@ -28,7 +29,7 @@ class AudioEngine: NSObject {
     }
     
     var songTotalTime = ""
-    
+        
     override init() {
         super.init()
         initAVAudioSession()
@@ -48,22 +49,6 @@ class AudioEngine: NSObject {
         } catch let error {
             print("Error setting AVAudioSession category! \(error.localizedDescription)\n")
             
-        }
-        
-        //Set the session Sample Rate (Record Only)
-        let hwSampleRate = 44100.0
-        do {
-            try sessionInstance.setPreferredSampleRate(hwSampleRate)
-        } catch let error {
-            print("Error setting preferred sample rate! \(error.localizedDescription)\n")
-        }
-        
-        //Set the session BufferDuration (Record Only)
-        let ioBufferDuration: TimeInterval = 0.0029
-        do {
-            try sessionInstance.setPreferredIOBufferDuration(ioBufferDuration)
-        } catch let error {
-            print("Error setting preferred io buffer duration! \(error.localizedDescription)\n")
         }
         
         //Activate the audio session
@@ -105,9 +90,10 @@ class AudioEngine: NSObject {
     func initSongFileIntoPlayer() {
         
         do {
-            let songURL = Bundle.main.url(forResource: "Testing", withExtension: "mp3")!
-            let songFile = try AVAudioFile(forReading: songURL)
-            self.songTotalTime = timeInterval.stringFromTimeInterval(interval: durationOfNodePlayer(songURL))
+            songURL = Bundle.main.url(forResource: "Testing", withExtension: "mp3")
+            guard let getSong = songURL else { return }
+            let songFile = try AVAudioFile(forReading: getSong)
+            self.songTotalTime = timeInterval.stringFromTimeInterval(interval: durationOfNodePlayer(getSong))
             playerLoopBuffer = AVAudioPCMBuffer(pcmFormat: songFile.processingFormat, frameCapacity: AVAudioFrameCount(songFile.length))!
             try songFile.read(into: playerLoopBuffer)
         } catch {
@@ -152,17 +138,51 @@ class AudioEngine: NSObject {
            }
 
     }
-}
-
-extension TimeInterval {
     
-    func stringFromTimeInterval(interval: TimeInterval) -> String {
-        
-        let songTime = NSInteger(interval)
-
-        let seconds = songTime % 60
-        let minutes = (songTime / 60) % 60
-
-        return String(format: "%0.2d:%0.2d",minutes,seconds)
+    func getCurrentTimeSong() -> String {
+        guard let getSong = songURL else { return "00:00"}
+        return currentSongTime(value: durationOfNodePlayer(getSong))
     }
+    
+    func currentSongTime(value: TimeInterval) -> String {
+        return "\(Int(value / 60)):\(Int(value.truncatingRemainder(dividingBy: 60)) < 9 ? "0" : "")\(Int(value.truncatingRemainder(dividingBy: 60)))"
+    }
+    
+//    func test(sliderValue: CGSize) -> Double{
+//        let nodetime: AVAudioTime  = self.engine.outputNode.lastRenderTime!
+//        let playerTime: AVAudioTime = self.player.playerTime(forNodeTime: nodetime)!
+//        let sampleRate = playerTime.sampleRate
+//
+//        var newsampletime = AVAudioFramePosition(sampleRate * Double(sliderValue.width))
+//
+//        var f: CGFloat?
+//
+//        if let n = NumberFormatter().number(from: getCurrentTimeSong()) {
+//            f = CGFloat(truncating: n)
+//        }
+//
+//        var length = f! - sliderValue.width
+//        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * Float(length))
+//
+//
+//        return sampleRate
+//
+////        var newsampletime = AVAudioFramePosition(sampleRate * Double(Slider.value))
+////        var length = Float(songDuration!) - Slider.value
+////        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * length)
+//
+//    }
+    
+//    var currentPositionInSeconds: TimeInterval {
+//        var offsetTime = engine.outputNode.lastRenderTime
+//        let lastRenderTime = engine.outputNode.lastRenderTime
+//        let frames = lastRenderTime!.sampleTime - offsetTime!.sampleTime
+//        return Double(frames) / (offsetTime?.sampleRate)!
+//
+////        get {
+////            let lastRenderTime = engine.outputNode.lastRenderTime
+////            let frames = lastRenderTime.sampleTime - offsetTime.sampleTime
+////            return Double(frames) / offsetTime.sampleRate
+////        }
+//    }
 }
