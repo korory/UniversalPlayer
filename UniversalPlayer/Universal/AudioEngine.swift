@@ -20,14 +20,20 @@ class AudioEngine: NSObject {
     // buffer for the player
     private var playerLoopBuffer: AVAudioPCMBuffer = AVAudioPCMBuffer()
     
+    private var timeInterval: TimeInterval = TimeInterval()
+    private var songURL: URL?
+
+    
     var playerIsPlaying: Bool {
         return player.isPlaying
     }
     
+    var songTotalTime = ""
+        
     override init() {
         super.init()
         initAVAudioSession()
-        initSongIntoPlayer()
+        initSongFileIntoPlayer()
         initAllComponentsToPlayer()
         createEngineAndAttachNodes()
         connectAllComponentsToTheMainMixer()
@@ -43,22 +49,6 @@ class AudioEngine: NSObject {
         } catch let error {
             print("Error setting AVAudioSession category! \(error.localizedDescription)\n")
             
-        }
-        
-        //Set the session Sample Rate (Record Only)
-        let hwSampleRate = 44100.0
-        do {
-            try sessionInstance.setPreferredSampleRate(hwSampleRate)
-        } catch let error {
-            print("Error setting preferred sample rate! \(error.localizedDescription)\n")
-        }
-        
-        //Set the session BufferDuration (Record Only)
-        let ioBufferDuration: TimeInterval = 0.0029
-        do {
-            try sessionInstance.setPreferredIOBufferDuration(ioBufferDuration)
-        } catch let error {
-            print("Error setting preferred io buffer duration! \(error.localizedDescription)\n")
         }
         
         //Activate the audio session
@@ -97,11 +87,13 @@ class AudioEngine: NSObject {
         engine.connect(sampler, to: destinationNodes, fromBus: 0, format: stereoFormat)
     }
     
-    func initSongIntoPlayer() {
+    func initSongFileIntoPlayer() {
         
         do {
-            let songURL = Bundle.main.url(forResource: "Testing", withExtension: "mp3")!
-            let songFile = try AVAudioFile(forReading: songURL)
+            songURL = Bundle.main.url(forResource: "Testing", withExtension: "mp3")
+            guard let getSong = songURL else { return }
+            let songFile = try AVAudioFile(forReading: getSong)
+            self.songTotalTime = timeInterval.stringFromTimeInterval(interval: durationOfNodePlayer(getSong))
             playerLoopBuffer = AVAudioPCMBuffer(pcmFormat: songFile.processingFormat, frameCapacity: AVAudioFrameCount(songFile.length))!
             try songFile.read(into: playerLoopBuffer)
         } catch {
@@ -112,7 +104,6 @@ class AudioEngine: NSObject {
     func togglePlayer() {
         if !self.playerIsPlaying {
             self.startEngine()
-            //self.initSongIntoPlayer()
             self.schedulePlayerContent()
             player.play()
         } else {
@@ -134,4 +125,64 @@ class AudioEngine: NSObject {
     func schedulePlayerContent() {
         player.scheduleBuffer(playerLoopBuffer, at: nil, options: .loops, completionHandler: nil)
     }
+    
+    func durationOfNodePlayer(_ fileUrl: URL) -> TimeInterval {
+        do {
+            let file = try AVAudioFile(forReading: fileUrl)
+            let audioNodeFileLength = AVAudioFrameCount(file.length)
+            return Double(Double(audioNodeFileLength) / 44100) //Divide by the AVSampleRateKey in the recorder settings
+
+           } catch {
+
+              return 0
+           }
+
+    }
+    
+    func getCurrentTimeSong() -> String {
+        guard let getSong = songURL else { return "00:00"}
+        return currentSongTime(value: durationOfNodePlayer(getSong))
+    }
+    
+    func currentSongTime(value: TimeInterval) -> String {
+        return "\(Int(value / 60)):\(Int(value.truncatingRemainder(dividingBy: 60)) < 9 ? "0" : "")\(Int(value.truncatingRemainder(dividingBy: 60)))"
+    }
+    
+//    func test(sliderValue: CGSize) -> Double{
+//        let nodetime: AVAudioTime  = self.engine.outputNode.lastRenderTime!
+//        let playerTime: AVAudioTime = self.player.playerTime(forNodeTime: nodetime)!
+//        let sampleRate = playerTime.sampleRate
+//
+//        var newsampletime = AVAudioFramePosition(sampleRate * Double(sliderValue.width))
+//
+//        var f: CGFloat?
+//
+//        if let n = NumberFormatter().number(from: getCurrentTimeSong()) {
+//            f = CGFloat(truncating: n)
+//        }
+//
+//        var length = f! - sliderValue.width
+//        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * Float(length))
+//
+//
+//        return sampleRate
+//
+////        var newsampletime = AVAudioFramePosition(sampleRate * Double(Slider.value))
+////        var length = Float(songDuration!) - Slider.value
+////        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * length)
+//
+//    }
+    
+//    var currentPositionInSeconds: TimeInterval {
+//        var offsetTime = engine.outputNode.lastRenderTime
+//        let lastRenderTime = engine.outputNode.lastRenderTime
+//        let frames = lastRenderTime!.sampleTime - offsetTime!.sampleTime
+//        return Double(frames) / (offsetTime?.sampleRate)!
+//
+////        get {
+////            let lastRenderTime = engine.outputNode.lastRenderTime
+////            let frames = lastRenderTime.sampleTime - offsetTime.sampleTime
+////            return Double(frames) / offsetTime.sampleRate
+////        }
+//    }
 }
