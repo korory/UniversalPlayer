@@ -147,42 +147,4 @@ class AudioEngine: NSObject {
     func currentSongTime(value: TimeInterval) -> String {
         return "\(Int(value / 60)):\(Int(value.truncatingRemainder(dividingBy: 60)) < 9 ? "0" : "")\(Int(value.truncatingRemainder(dividingBy: 60)))"
     }
-    
-//    func test(sliderValue: CGSize) -> Double{
-//        let nodetime: AVAudioTime  = self.engine.outputNode.lastRenderTime!
-//        let playerTime: AVAudioTime = self.player.playerTime(forNodeTime: nodetime)!
-//        let sampleRate = playerTime.sampleRate
-//
-//        var newsampletime = AVAudioFramePosition(sampleRate * Double(sliderValue.width))
-//
-//        var f: CGFloat?
-//
-//        if let n = NumberFormatter().number(from: getCurrentTimeSong()) {
-//            f = CGFloat(truncating: n)
-//        }
-//
-//        var length = f! - sliderValue.width
-//        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * Float(length))
-//
-//
-//        return sampleRate
-//
-////        var newsampletime = AVAudioFramePosition(sampleRate * Double(Slider.value))
-////        var length = Float(songDuration!) - Slider.value
-////        var framestoplay = AVAudioFrameCount(Float(playerTime.sampleRate) * length)
-//
-//    }
-    
-//    var currentPositionInSeconds: TimeInterval {
-//        var offsetTime = engine.outputNode.lastRenderTime
-//        let lastRenderTime = engine.outputNode.lastRenderTime
-//        let frames = lastRenderTime!.sampleTime - offsetTime!.sampleTime
-//        return Double(frames) / (offsetTime?.sampleRate)!
-//
-////        get {
-////            let lastRenderTime = engine.outputNode.lastRenderTime
-////            let frames = lastRenderTime.sampleTime - offsetTime.sampleTime
-////            return Double(frames) / offsetTime.sampleRate
-////        }
-//    }
 }

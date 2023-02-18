@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5735E5C129A12108009D51EE /* MusicListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5735E5C029A12108009D51EE /* MusicListView.swift */; };
+		5735E5C329A1215B009D51EE /* MusicListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5735E5C229A1215B009D51EE /* MusicListCellView.swift */; };
+		5735E5C529A125CF009D51EE /* MusicListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5735E5C429A125CF009D51EE /* MusicListViewModel.swift */; };
+		5735E5C729A12606009D51EE /* UniversalVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5735E5C629A12606009D51EE /* UniversalVariables.swift */; };
 		7301138728F5D63400FB3E4F /* UniversalPlayerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7301138628F5D63400FB3E4F /* UniversalPlayerApp.swift */; };
 		7301138B28F5D63600FB3E4F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7301138A28F5D63600FB3E4F /* Assets.xcassets */; };
 		7301138E28F5D63600FB3E4F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7301138D28F5D63600FB3E4F /* Preview Assets.xcassets */; };
@@ -17,6 +21,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5735E5C029A12108009D51EE /* MusicListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListView.swift; sourceTree = "<group>"; };
+		5735E5C229A1215B009D51EE /* MusicListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListCellView.swift; sourceTree = "<group>"; };
+		5735E5C429A125CF009D51EE /* MusicListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListViewModel.swift; sourceTree = "<group>"; };
+		5735E5C629A12606009D51EE /* UniversalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalVariables.swift; sourceTree = "<group>"; };
+		5735E5C829A13643009D51EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7301138328F5D63400FB3E4F /* UniversalPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniversalPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7301138628F5D63400FB3E4F /* UniversalPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalPlayerApp.swift; sourceTree = "<group>"; };
 		7301138A28F5D63600FB3E4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -38,6 +47,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5735E5BF29A120E8009D51EE /* MusicList */ = {
+			isa = PBXGroup;
+			children = (
+				5735E5C029A12108009D51EE /* MusicListView.swift */,
+				5735E5C229A1215B009D51EE /* MusicListCellView.swift */,
+				5735E5C429A125CF009D51EE /* MusicListViewModel.swift */,
+			);
+			path = MusicList;
+			sourceTree = "<group>";
+		};
 		7301137A28F5D63400FB3E4F = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +76,7 @@
 		7301138528F5D63400FB3E4F /* UniversalPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				5735E5C829A13643009D51EE /* Info.plist */,
 				7301139428F5D82500FB3E4F /* Universal */,
 				7301139528F5D83B00FB3E4F /* App */,
 				7301138628F5D63400FB3E4F /* UniversalPlayerApp.swift */,
@@ -79,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				7301139B28F5D88F00FB3E4F /* AudioEngine.swift */,
+				5735E5C629A12606009D51EE /* UniversalVariables.swift */,
 			);
 			path = Universal;
 			sourceTree = "<group>";
@@ -86,6 +107,7 @@
 		7301139528F5D83B00FB3E4F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				5735E5BF29A120E8009D51EE /* MusicList */,
 				7301139628F5D85500FB3E4F /* Player */,
 			);
 			path = App;
@@ -179,9 +201,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5735E5C129A12108009D51EE /* MusicListView.swift in Sources */,
 				7301139828F5D87300FB3E4F /* PlayerView.swift in Sources */,
 				7301139A28F5D88200FB3E4F /* PlayerViewModel.swift in Sources */,
 				7301139C28F5D88F00FB3E4F /* AudioEngine.swift in Sources */,
+				5735E5C329A1215B009D51EE /* MusicListCellView.swift in Sources */,
+				5735E5C729A12606009D51EE /* UniversalVariables.swift in Sources */,
+				5735E5C529A125CF009D51EE /* MusicListViewModel.swift in Sources */,
 				7301138728F5D63400FB3E4F /* UniversalPlayerApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -311,14 +337,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniversalPlayer/Preview Content\"";
-				DEVELOPMENT_TEAM = QBZSC9M2VQ;
+				DEVELOPMENT_TEAM = 4Y4C8K5UQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniversalPlayer/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -340,14 +368,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"UniversalPlayer/Preview Content\"";
-				DEVELOPMENT_TEAM = QBZSC9M2VQ;
+				DEVELOPMENT_TEAM = 4Y4C8K5UQ4;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = UniversalPlayer/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

@@ -12,31 +12,35 @@ struct PlayerView: View {
     @StateObject var playerViewModel = PlayerViewModel()
         
     var body: some View {
-        ZStack {
-            LinearGradient(gradient: Gradient(colors: [Color(playerViewModel.backgroundColorGray), Color(playerViewModel.backgroundColorDark)]), startPoint: .top, endPoint: .bottom)
+        NavigationView {
+            ZStack {
+                LinearGradient(gradient: Gradient(colors:[
+                    Color(backgroundColorGray),
+                    Color(backgroundColorDark)]), startPoint: .top, endPoint: .bottom)
                 .ignoresSafeArea()
-
-            VStack (spacing: 10){
-                Spacer()
                 
-                //Album Cover
-                albumCoverComponent
-                
-                Spacer()
-                
-                //Slider Timer
-                sliderTimerComponent
-                
-                //Music Controls
-                musicControlsComponents
-                
-                Spacer()
-                
+                VStack (spacing: 10){
+                    Spacer()
+                    
+                    //Album Cover
+                    albumCoverComponent
+                    
+                    Spacer()
+                    
+                    //Slider Timer
+                    sliderTimerComponent
+                    
+                    //Music Controls
+                    musicControlsComponents
+                    
+                    Spacer()
+                    
+                }
             }
-        }
-        .onReceive(playerViewModel.timer) { _ in
-            if playerViewModel.isPlaying() {
-                playerViewModel.updateTimePlaying()
+            .onReceive(playerViewModel.timer) { _ in
+                if playerViewModel.isPlaying() {
+                    playerViewModel.updateTimePlaying()
+                }
             }
         }
     }

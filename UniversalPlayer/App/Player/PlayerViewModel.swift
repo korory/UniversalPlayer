@@ -22,10 +22,6 @@ class PlayerViewModel: ObservableObject {
     
     //MARK: - ASSETS
     
-    //Background Colors
-    var backgroundColorGray = "backgroundColorGray"
-    var backgroundColorDark = "backgroundColorDark"
-    
     //Player Controls Assets
     var previousSongButtonAsset = "backward.end.fill"
     var playButtonAsset = "play.circle.fill"
@@ -75,8 +71,6 @@ class PlayerViewModel: ObservableObject {
     }
     
     func updateTimePlaying() {
-        //print(audioEngine.test(sliderValue: dragOffsetCircle))
-        //Move song slilder
         if sliderCurentSongProgress < CGFloat(UIScreen.main.bounds.width - 40) {
             sliderCurentSongProgress += 1
             
@@ -94,10 +88,6 @@ class PlayerViewModel: ObservableObject {
         
     }
     
-//    func updateMusicTrackWithTimeBar() {
-//        let test = audioEngine.
-//    }
-//
     func translateCounterToMinutesAndSeconds(counter: Int) -> (Int, Int) {
         return ((counter % 3600) / 60, ((counter % 3600) % 60))
     }
