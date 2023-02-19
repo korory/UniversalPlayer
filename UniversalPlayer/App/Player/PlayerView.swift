@@ -43,6 +43,7 @@ struct PlayerView: View {
                 }
             }
         }
+        .navigationBarTitle(Text(""), displayMode: .inline)
     }
 }
 
