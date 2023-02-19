@@ -25,7 +25,7 @@
 		5735E5C229A1215B009D51EE /* MusicListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListCellView.swift; sourceTree = "<group>"; };
 		5735E5C429A125CF009D51EE /* MusicListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListViewModel.swift; sourceTree = "<group>"; };
 		5735E5C629A12606009D51EE /* UniversalVariables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalVariables.swift; sourceTree = "<group>"; };
-		5735E5C829A13643009D51EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5735E5C929A20971009D51EE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7301138328F5D63400FB3E4F /* UniversalPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniversalPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7301138628F5D63400FB3E4F /* UniversalPlayerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalPlayerApp.swift; sourceTree = "<group>"; };
 		7301138A28F5D63600FB3E4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -76,7 +76,7 @@
 		7301138528F5D63400FB3E4F /* UniversalPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				5735E5C829A13643009D51EE /* Info.plist */,
+				5735E5C929A20971009D51EE /* Info.plist */,
 				7301139428F5D82500FB3E4F /* Universal */,
 				7301139528F5D83B00FB3E4F /* App */,
 				7301138628F5D63400FB3E4F /* UniversalPlayerApp.swift */,
